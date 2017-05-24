@@ -1,10 +1,12 @@
 # ### Quick send reference
-# # ///
+# # Symbol "." - string starting
+# # Symbol "!" - string end
 #
 # |||||||||||||||||||||||||||
 #
 # ### Quick recieve reference
 # # Symbol "." - string starting
+# # Symbol "!" - string end
 # # Symbol "," - data from buttons
 # # Symbol "@" - separator
 
@@ -27,7 +29,7 @@ def make_global():
 	
 make_global()
 
-ser = serial.Serial('/dev/ttyACM1', 9600)
+ser = serial.Serial('COM6', 9600)
 time.sleep(0.3)
 
 recieving = Thread(target=recieving_data)
@@ -35,4 +37,4 @@ recieving.start()
 
 while True:
 	print(variables['data1'])
-	time.sleep(2)
+	time.sleep(0.1)

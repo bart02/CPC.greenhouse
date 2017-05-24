@@ -34,6 +34,8 @@ void setup() {
   Serial.begin(9600);
   pinMode(2, INPUT_PULLUP);
   pinMode(3, INPUT_PULLUP);
+  pinMode(4, INPUT_PULLUP);
+  pinMode(5, INPUT_PULLUP);
   pinMode(37, INPUT_PULLUP);
   pinMode(13, OUTPUT);
 }
@@ -41,6 +43,8 @@ void setup() {
 void loop() {
   int sensorVal1 = digitalRead(2);
   int sensorVal2 = digitalRead(3);
+  int sensorVal3 = digitalRead(4);
+  int sensorVal4 = digitalRead(5);
   int autoo = digitalRead(37);
   if (sensorVal1 == sensorVal2) {
     digitalWrite(13, LOW);
@@ -53,6 +57,10 @@ void loop() {
   Serial.print("@");
   Serial.print(sensorVal2);
   Serial.print("@");
+  Serial.print(sensorVal3);
+  Serial.print("@");
+  Serial.print(sensorVal4);
+  Serial.print("@");
   Serial.print(autoo);
   Serial.println("!");
   lcd.setCursor(0, 0);
@@ -61,9 +69,4 @@ void loop() {
   lcd.setCursor(0, 1);
   if (autoo == 0) lcd.print("[\2] [\1]  [\2] [\1] ");
   else lcd.print("[\1] [\2]  [\1] [\2] ");
-  //  lcd.print(".,");
-  //  lcd.print(sensorVal1);
-  //  lcd.print("@");
-  //  lcd.print(sensorVal2);
-  //  lcd.print("!");
 }
