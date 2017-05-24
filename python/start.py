@@ -16,44 +16,43 @@ import serial
 import time
 from threading import Thread
 
-
 variables = {'data1': [], 'data2': 0}
 
 
 def search():
-	found = False
-	for j in range(2):
-		for i in range(64):
-			try:
-				if j == 0:
-					port = "/dev/ttyUSB" + str(i)
-				if j == 1:
-					port = "COM" + str(i)
-				ser = serial.Serial(port)
-				ser.close()
-				found = True
-				break
-			except serial.serialutil.SerialException:
-				pass
+    found = False
+    for j in range(2):
+        for i in range(64):
+            try:
+                if j == 0:
+                    port = "/dev/ttyUSB" + str(i)
+                if j == 1:
+                    port = "COM" + str(i)
+                ser = serial.Serial(port)
+                ser.close()
+                found = True
+                break
+            except serial.serialutil.SerialException:
+                pass
 
-		if found:
-			return port
-			break
-	if not found:
-		raise NameError("Ports not found")
+        if found:
+            return port
+            break
+    if not found:
+        raise NameError("Ports not found")
 
 
 def recieving_data():
-	while True:
-		data = ser.readline().decode('utf-8')
-		if data[0] == '.':
-			if data[1] == ',':
-				data = data[2:].split('!')[0].split('@')
-				variables['data1'] = data
+    while True:
+        data = ser.readline().decode('utf-8')
+        if data[0] == '.':
+            if data[1] == ',':
+                data = data[2:].split('!')[0].split('@')
+                variables['data1'] = data
 
 
 def make_global():
-	global variables
+    global variables
 
 
 make_global()
@@ -68,10 +67,10 @@ recieving.start()
 print('[INFO] Started')
 
 while True:
-	if len(variables['data1']) == 5:
-		if variables['data1'][4] == '1':
-			ser.write("., [ Automatic  ] @[\1] [\2]  [\1] [\2]!".encode('utf-8'));
-		else:
-			ser.write("., [   Manual   ] @[\2] [\1]  [\2] [\1]!".encode('utf-8'));
-	time.sleep(0.5)
-	print(variables['data1'])
+    if len(variables['data1']) == 5:
+        if variables['data1'][4] == '1':
+            ser.write("., [ Automatic  ] @[\1] [\2]  [\1] [\2]!".encode('utf-8'));
+        else:
+            ser.write("., [   Manual   ] @[\2] [\1]  [\2] [\1]!".encode('utf-8'));
+    time.sleep(0.5)
+    print(variables['data1'])
