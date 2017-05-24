@@ -84,7 +84,7 @@ $lights = array_reverse($lights->fetchAll(PDO::FETCH_ASSOC));
                         ]);
                         var options = {
                             title: 'Температура воздуха',
-                            hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+                            hAxis: {title: 'Дата',  titleTextStyle: {color: '#333'}},
                             vAxis: {minValue: 0}
                         };
 					}else if(global_type == 'ground_temp'){
@@ -93,7 +93,7 @@ $lights = array_reverse($lights->fetchAll(PDO::FETCH_ASSOC));
                         ]);
                         var options = {
                             title: 'Температура почвы',
-                            hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+                            hAxis: {title: 'Дата',  titleTextStyle: {color: '#333'}},
                             vAxis: {minValue: 0}
                         };
 					}else if(global_type == 'air_humidity'){
@@ -102,7 +102,7 @@ $lights = array_reverse($lights->fetchAll(PDO::FETCH_ASSOC));
                         ]);
                         var options = {
                             title: 'Влажность воздуха',
-                            hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+                            hAxis: {title: 'Дата',  titleTextStyle: {color: '#333'}},
                             vAxis: {minValue: 0}
                         };
 					}else if(global_type == 'ground_humidity'){
@@ -111,7 +111,7 @@ $lights = array_reverse($lights->fetchAll(PDO::FETCH_ASSOC));
                         ]);
                         var options = {
                             title: 'Влажность почвы',
-                            hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+                            hAxis: {title: 'Дата',  titleTextStyle: {color: '#333'}},
                             vAxis: {minValue: 0}
                         };
 					}else if(global_type == 'lights'){
@@ -120,7 +120,7 @@ $lights = array_reverse($lights->fetchAll(PDO::FETCH_ASSOC));
                         ]);
                         var options = {
                             title: 'Освещенность',
-                            hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+                            hAxis: {title: 'Дата',  titleTextStyle: {color: '#333'}},
                             vAxis: {minValue: 0}
                         };
 					}
