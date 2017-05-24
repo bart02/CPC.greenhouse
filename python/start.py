@@ -46,5 +46,5 @@ while True:
 			ser.write("., [ Automatic  ] @[\1] [\2]  [\1] [\2]!".encode('utf-8'));
 		else:
 			ser.write("., [   Manual   ] @[\2] [\1]  [\2] [\1]!".encode('utf-8'));
-	time.sleep(2)
+	time.sleep(0.5)
 	print(variables['data1'])
