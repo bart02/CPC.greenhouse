@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
 </head>
 
@@ -31,6 +32,98 @@
     </nav>
     <main>
         <div class="container">
+		    <script>
+			var global_type = 'airing';
+			function chart(type){
+			    global_type = type;
+			    google.charts.load('current', {'packages':['corechart']});
+				google.charts.setOnLoadCallback(drawChart);
+				function drawChart() {
+				    if(global_type == 'airing'){
+                        var data = google.visualization.arrayToDataTable([
+                            ['Year', 'Sales', 'Expenses'],
+                            ['2013',  1000,      400],
+                            ['2014',  1170,      460],
+                            ['2015',  660,       1120],
+                            ['2016',  1030,      540]
+                        ]);
+                        var options = {
+                            title: 'Проветривание',
+                            hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+                            vAxis: {minValue: 0}
+                        };
+					}else if(global_type == 'air_temp'){
+                        var data = google.visualization.arrayToDataTable([
+                            ['Year', 'Sales', 'Expenses'],
+                            ['2013',  1000,      400],
+                            ['2014',  1170,      460],
+                            ['2015',  660,       1120],
+                            ['2016',  1030,      540]
+                        ]);
+                        var options = {
+                            title: 'Температура воздуха',
+                            hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+                            vAxis: {minValue: 0}
+                        };
+					}else if(global_type == 'ground_temp'){
+                        var data = google.visualization.arrayToDataTable([
+                            ['Year', 'Sales', 'Expenses'],
+                            ['2013',  1000,      400],
+                            ['2014',  1170,      460],
+                            ['2015',  660,       1120],
+                            ['2016',  1030,      540]
+                        ]);
+                        var options = {
+                            title: 'Температура почвы',
+                            hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+                            vAxis: {minValue: 0}
+                        };
+					}else if(global_type == 'air_humidity'){
+                        var data = google.visualization.arrayToDataTable([
+                            ['Year', 'Sales', 'Expenses'],
+                            ['2013',  1000,      400],
+                            ['2014',  1170,      460],
+                            ['2015',  660,       1120],
+                            ['2016',  1030,      540]
+                        ]);
+                        var options = {
+                            title: 'Влажность воздуха',
+                            hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+                            vAxis: {minValue: 0}
+                        };
+					}else if(global_type == 'ground_humidity'){
+                        var data = google.visualization.arrayToDataTable([
+                            ['Year', 'Sales', 'Expenses'],
+                            ['2013',  1000,      400],
+                            ['2014',  1170,      460],
+                            ['2015',  660,       1120],
+                            ['2016',  1030,      540]
+                        ]);
+                        var options = {
+                            title: 'Влажность почвы',
+                            hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+                            vAxis: {minValue: 0}
+                        };
+					}else if(global_type == 'lights'){
+                        var data = google.visualization.arrayToDataTable([
+                            ['Year', 'Sales', 'Expenses'],
+                            ['2013',  1000,      400],
+                            ['2014',  1170,      460],
+                            ['2015',  660,       1120],
+                            ['2016',  1030,      540]
+                        ]);
+                        var options = {
+                            title: 'Освещенность',
+                            hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+                            vAxis: {minValue: 0}
+                        };
+					}
+
+                    var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+                    chart.draw(data, options);
+                }
+			}
+			</script>
             <div class="row">
                 <div class="col l4 m6 s12">
                     <div class="card blue-grey darken-1 white-text" id="server-stats">
@@ -41,7 +134,7 @@
                                 <p>35 градусов по C</p>
                             </div>
 							<div class="card-action">
-                                <a href="#">Отобразить статистику</a>
+                                <a onclick="chart('air_temp')">Отобразить статистику</a>
                             </div>
                         </div>
                     </div>
@@ -53,7 +146,7 @@
                                 <p>12 градусов по C</p>
                             </div>
 							<div class="card-action">
-                                <a href="#">Отобразить статистику</a>
+                                <a onclick="chart('ground_temp')">Отобразить статистику</a>
                             </div>
                         </div>
                     </div>
@@ -67,7 +160,7 @@
                                 <p>60%</p>
                             </div>
 							<div class="card-action">
-                                <a href="#">Отобразить статистику</a>
+                                <a onclick="chart('air_humidity')">Отобразить статистику</a>
                             </div>
                         </div>
                     </div>
@@ -79,7 +172,7 @@
                                 <p>10%</p>
                             </div>
 							<div class="card-action">
-                                <a href="#">Отобразить статистику</a>
+                                <a onclick="chart('ground_humidity')">Отобразить статистику</a>
                             </div>
                         </div>
                     </div>
@@ -93,7 +186,7 @@
                                 <p>5000 люксов</p>
                             </div>
 							<div class="card-action">
-                                <a href="#">Отобразить статистику</a>
+                                <a onclick="chart('lights')">Отобразить статистику</a>
                             </div>
                         </div>
                     </div>
@@ -105,12 +198,17 @@
                                 <p>Есть</p>
                             </div>
 							<div class="card-action">
-                                <a href="#">Отобразить статистику</a>
+                                <a onclick="chart('airing')">Отобразить статистику</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+			<div class="row center">
+			    <div class="col l12 m6 s12">
+			        <div id="chart_div" style="height: 400px;"></span>
+		        </div>
+			</div>
         </div>
     </main>
 </body>
