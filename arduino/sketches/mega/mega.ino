@@ -3,7 +3,6 @@
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-boolean autoo = 1;
 void setup() {
   lcd.begin();
   lcd.backlight();
@@ -63,10 +62,33 @@ void loop() {
   Serial.print("@");
   Serial.print(autoo);
   Serial.println("!");
-  lcd.setCursor(0, 0);
-  if (autoo == 0)lcd.print(" [   Manual   ] ");
-  else lcd.print(" [ Automatic  ] ");
-  lcd.setCursor(0, 1);
-  if (autoo == 0) lcd.print("[\2] [\1]  [\2] [\1] ");
-  else lcd.print("[\1] [\2]  [\1] [\2] ");
+  String symbols = "";
+  while(Serial.available()){
+    char symbol = Serial.read();
+    delay(10);
+    symbols += symbol;
+  }
+  if(symbols.charAt(0) == '.'){
+    if(symbols.charAt(1) == ','){
+      String first = "";
+      int i = 2;
+      while(true){
+        char symbol = symbols.charAt(i);
+        i++;
+        if(symbol == '@') break;
+        first += symbol;
+      }
+      String second = "";
+      while(true){
+        char symbol = symbols.charAt(i);
+        i++;
+        if(symbol == '!') break;
+        second += symbol;
+      }
+      lcd.setCursor(0, 0);
+      lcd.print(first);
+      lcd.setCursor(0, 1);
+      lcd.print(second);
+    }
+  }
 }
