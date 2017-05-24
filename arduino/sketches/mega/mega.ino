@@ -3,7 +3,6 @@
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-boolean autoo = 1;
 void setup() {
   lcd.begin();
   lcd.backlight();
@@ -34,6 +33,8 @@ void setup() {
   Serial.begin(9600);
   pinMode(2, INPUT_PULLUP);
   pinMode(3, INPUT_PULLUP);
+  pinMode(4, INPUT_PULLUP);
+  pinMode(5, INPUT_PULLUP);
   pinMode(37, INPUT_PULLUP);
   pinMode(13, OUTPUT);
 }
@@ -41,6 +42,8 @@ void setup() {
 void loop() {
   int sensorVal1 = digitalRead(2);
   int sensorVal2 = digitalRead(3);
+  int sensorVal3 = digitalRead(4);
+  int sensorVal4 = digitalRead(5);
   int autoo = digitalRead(37);
   if (sensorVal1 == sensorVal2) {
     digitalWrite(13, LOW);
@@ -53,17 +56,39 @@ void loop() {
   Serial.print("@");
   Serial.print(sensorVal2);
   Serial.print("@");
+  Serial.print(sensorVal3);
+  Serial.print("@");
+  Serial.print(sensorVal4);
+  Serial.print("@");
   Serial.print(autoo);
   Serial.println("!");
-  lcd.setCursor(0, 0);
-  if (autoo == 0)lcd.print(" [   Manual   ] ");
-  else lcd.print(" [ Automatic  ] ");
-  lcd.setCursor(0, 1);
-  if (autoo == 0) lcd.print("[\2] [\1]  [\2] [\1] ");
-  else lcd.print("[\1] [\2]  [\1] [\2] ");
-  //  lcd.print(".,");
-  //  lcd.print(sensorVal1);
-  //  lcd.print("@");
-  //  lcd.print(sensorVal2);
-  //  lcd.print("!");
+  String symbols = "";
+  while(Serial.available()){
+    char symbol = Serial.read();
+    delay(10);
+    symbols += symbol;
+  }
+  if(symbols.charAt(0) == '.'){
+    if(symbols.charAt(1) == ','){
+      String first = "";
+      int i = 2;
+      while(true){
+        char symbol = symbols.charAt(i);
+        i++;
+        if(symbol == '@') break;
+        first += symbol;
+      }
+      String second = "";
+      while(true){
+        char symbol = symbols.charAt(i);
+        i++;
+        if(symbol == '!') break;
+        second += symbol;
+      }
+      lcd.setCursor(0, 0);
+      lcd.print(first);
+      lcd.setCursor(0, 1);
+      lcd.print(second);
+    }
+  }
 }

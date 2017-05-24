@@ -1,5 +1,8 @@
 # ### Quick send reference
-# # ///
+# # Symbol "." - string starting
+# # Symbol "," - data for LCD
+# # Symbol "@" - separator
+# # Symbol "!" - string end
 #
 # |||||||||||||||||||||||||||
 #
@@ -7,6 +10,7 @@
 # # Symbol "." - string starting
 # # Symbol "," - data from buttons
 # # Symbol "@" - separator
+# # Symbol "!" - string end
 
 import serial
 import time
@@ -58,8 +62,16 @@ ser = serial.Serial(search(), 9600)
 time.sleep(0.3)
 
 recieving = Thread(target=recieving_data)
+
+time.sleep(2)
 recieving.start()
+print('[INFO] Started')
 
 while True:
+	if len(variables['data1']) == 5:
+		if variables['data1'][4] == '1':
+			ser.write("., [ Automatic  ] @[\1] [\2]  [\1] [\2]!".encode('utf-8'));
+		else:
+			ser.write("., [   Manual   ] @[\2] [\1]  [\2] [\1]!".encode('utf-8'));
+	time.sleep(0.5)
 	print(variables['data1'])
-	time.sleep(2)
