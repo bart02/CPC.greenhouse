@@ -12,14 +12,14 @@
 # # Symbol "@" - separator
 # # Symbol "!" - string end
 
-import serial
-import time
-from threading import Thread
+import serial                   # For connect to arduino
+import time                     # For sleep
+from threading import Thread    # For multi-tasking
 
-variables = {'data1': [], 'data2': 0}
+variables = {'data1': [], 'data2': 0}   # Global variables, 'data1' for data from arduino
 
 
-def search():
+def search():   # Function for searching the arduino port
     found = False
     for j in range(2):
         for i in range(64):
@@ -42,31 +42,31 @@ def search():
         raise NameError("Ports not found")
 
 
-def recieving_data():
+def receiving_data():   # Function for receiving data from arduino
     while True:
-        data = ser.readline().decode('utf-8')
+        data = ser.readline().decode('utf-8')   # Read the data from arduino
         if data[0] == '.':
             if data[1] == ',':
                 data = data[2:].split('!')[0].split('@')
                 variables['data1'] = data
 
 
-def make_global():
+def make_global():  # Function for make variables global
     global variables
 
 
-make_global()
+make_global()   # Make variables global
 
-ser = serial.Serial(search(), 9600)
-time.sleep(0.3)
+ser = serial.Serial(search(), 9600)  # Open serial port
+time.sleep(0.3)  # Waiting for port
 
-recieving = Thread(target=recieving_data)
+receiving = Thread(target=receiving_data)   # Create the threading for receive data
 
 time.sleep(2)
-recieving.start()
+receiving.start()   # Start the threading for receive data
 print('[INFO] Started')
 
-while True:
+while True:  # Print variables on display, and switch position to arduino display
     if len(variables['data1']) == 5:
         if variables['data1'][4] == '1':
             ser.write("., [ Automatic  ] @[\1] [\2]  [\1] [\2]!".encode('utf-8'));
