@@ -66,12 +66,11 @@ def make_global():  # Function for make variables global
 make_global()   # Make variables global
 
 ser = serial.Serial(search(), 9600)  # Open serial port
-time.sleep(1)  # Waiting for port
+time.sleep(5)  # Waiting for port
 
 receiving = Thread(target=receiving_data)   # Create the threading for receive data
-
-time.sleep(5)
 receiving.start()   # Start the threading for receive data
+
 print('[INFO] Started')
 
 sending = Thread(target=send_to_server)   # Create the threading for sending data to server
