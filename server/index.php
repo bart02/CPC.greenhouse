@@ -28,6 +28,12 @@ $ground_humidity = array_reverse($ground_humidity->fetchAll(PDO::FETCH_ASSOC));
 $lights = $db->query("SELECT * FROM `logs` WHERE `logtype` = '5' ORDER BY `id` DESC LIMIT 20;");
 $lights = array_reverse($lights->fetchAll(PDO::FETCH_ASSOC));
 
+$air_humidity_out = $db->query("SELECT * FROM `logs` WHERE `logtype` = '6' ORDER BY `id` DESC LIMIT 20;");
+$air_humidity_out = array_reverse($air_humidity_out->fetchAll(PDO::FETCH_ASSOC));
+
+$air_temp_out = $db->query("SELECT * FROM `logs` WHERE `logtype` = '7' ORDER BY `id` DESC LIMIT 20;");
+$air_temp_out = array_reverse($air_temp_out->fetchAll(PDO::FETCH_ASSOC));
+
 ?><!DOCTYPE html>
 <html>
 
@@ -46,6 +52,14 @@ $lights = array_reverse($lights->fetchAll(PDO::FETCH_ASSOC));
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
+	
+	<style>
+		@media only screen and (min-width: 993px) {
+			.hh {
+				height: 52px;
+			}
+		}
+	</style>
 </head>
 
 <body>
@@ -83,7 +97,16 @@ $lights = array_reverse($lights->fetchAll(PDO::FETCH_ASSOC));
                             ['Дата', 'Температура']<?php foreach($air_temp as $key => $value){ ?>, ['<?=$value['date']?>', <?=$value['data']?>]<?php } ?>
                         ]);
                         var options = {
-                            title: 'Температура воздуха',
+                            title: 'Температура воздуха (тепл.)',
+                            hAxis: {title: 'Дата',  titleTextStyle: {color: '#333'}},
+                            vAxis: {minValue: 0}
+                        };
+					}else if(global_type == 'air_temp_out'){
+                        var data = google.visualization.arrayToDataTable([
+                            ['Дата', 'Температура']<?php foreach($air_temp_out as $key => $value){ ?>, ['<?=$value['date']?>', <?=$value['data']?>]<?php } ?>
+                        ]);
+                        var options = {
+                            title: 'Температура воздуха (улица)',
                             hAxis: {title: 'Дата',  titleTextStyle: {color: '#333'}},
                             vAxis: {minValue: 0}
                         };
@@ -101,7 +124,16 @@ $lights = array_reverse($lights->fetchAll(PDO::FETCH_ASSOC));
                             ['Дата', 'Проценты']<?php foreach($air_humidity as $key => $value){ ?>, ['<?=$value['date']?>', <?=$value['data']?>]<?php } ?>
                         ]);
                         var options = {
-                            title: 'Влажность воздуха',
+                            title: 'Влажность воздуха (тепл.)',
+                            hAxis: {title: 'Дата',  titleTextStyle: {color: '#333'}},
+                            vAxis: {minValue: 0}
+                        };
+					}else if(global_type == 'air_humidity_out'){
+                        var data = google.visualization.arrayToDataTable([
+                            ['Дата', 'Проценты']<?php foreach($air_humidity_out as $key => $value){ ?>, ['<?=$value['date']?>', <?=$value['data']?>]<?php } ?>
+                        ]);
+                        var options = {
+                            title: 'Влажность воздуха (улица)',
                             hAxis: {title: 'Дата',  titleTextStyle: {color: '#333'}},
                             vAxis: {minValue: 0}
                         };
@@ -131,10 +163,10 @@ $lights = array_reverse($lights->fetchAll(PDO::FETCH_ASSOC));
 			}
 			</script>
             <div class="row">
-                <div class="col l4 m6 s12">
+                <div class="col l3 m6 s12">
                     <div class="card blue-grey darken-1 white-text" id="server-stats">
                         <div class="card-content">
-                            <h5>Температура воздуха</h5>
+                            <h5>Температура воздуха (тепл.)</h5>
                             <div class="divider"></div>
                             <div class="section">
                                 <p><?=$air_temp[count($air_temp) - 1]['data']?> °C</p>
@@ -144,6 +176,22 @@ $lights = array_reverse($lights->fetchAll(PDO::FETCH_ASSOC));
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="col l3 m6 s12">
+                    <div class="card blue-grey darken-1 white-text" id="server-stats">
+                        <div class="card-content">
+                            <h5>Температура воздуха (улица)</h5>
+                            <div class="divider"></div>
+                            <div class="section">
+                                <p><?=$air_temp_out[count($air_temp_out) - 1]['data']?> °C</p>
+                            </div>
+							<div class="card-action">
+                                <a onclick="chart('air_temp_out')">Отобразить статистику</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col l3 m6 s12">
                     <div class="card blue-grey darken-1 white-text" id="server-stats">
                         <div class="card-content">
                             <h5>Температура почвы</h5>
@@ -157,10 +205,26 @@ $lights = array_reverse($lights->fetchAll(PDO::FETCH_ASSOC));
                         </div>
                     </div>
                 </div>
-                <div class="col l4 m6 s12">
+                <div class="col l3 m6 s12">
                     <div class="card blue-grey darken-1 white-text" id="staff-online">
                         <div class="card-content">
-                            <h5>Влажность воздуха</h5>
+                            <h5 class="hh">Освещенность</h5>
+                            <div class="divider"></div>
+                            <div class="section">
+                                <p><?=$lights[count($lights) - 1]['data']?> люксов</p>
+                            </div>
+							<div class="card-action">
+                                <a onclick="chart('lights')">Отобразить статистику</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="row">
+                <div class="col l3 m6 s12">
+                    <div class="card blue-grey darken-1 white-text" id="staff-online">
+                        <div class="card-content">
+                            <h5>Влажность воздуха (тепл.)</h5>
                             <div class="divider"></div>
                             <div class="section">
                                 <p><?=$air_humidity[count($air_humidity) - 1]['data']?>%</p>
@@ -170,6 +234,22 @@ $lights = array_reverse($lights->fetchAll(PDO::FETCH_ASSOC));
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="col l3 m6 s12">
+                    <div class="card blue-grey darken-1 white-text" id="staff-online">
+                        <div class="card-content">
+                            <h5>Влажность воздуха (улица)</h5>
+                            <div class="divider"></div>
+                            <div class="section">
+                                <p><?=$air_humidity_out[count($air_humidity_out) - 1]['data']?>%</p>
+                            </div>
+							<div class="card-action">
+                                <a onclick="chart('air_humidity_out')">Отобразить статистику</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col l3 m6 s12">
                     <div class="card blue-grey darken-1 white-text" id="server-stats">
                         <div class="card-content">
                             <h5>Влажность почвы</h5>
@@ -183,22 +263,10 @@ $lights = array_reverse($lights->fetchAll(PDO::FETCH_ASSOC));
                         </div>
                     </div>
                 </div>
-                <div class="col l4 m6 s12">
-                    <div class="card blue-grey darken-1 white-text" id="staff-online">
-                        <div class="card-content">
-                            <h5>Освещенность</h5>
-                            <div class="divider"></div>
-                            <div class="section">
-                                <p><?=$lights[count($lights) - 1]['data']?> люксов</p>
-                            </div>
-							<div class="card-action">
-                                <a onclick="chart('lights')">Отобразить статистику</a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="col l3 m6 s12">
                     <div class="card blue-grey darken-1 white-text" id="server-stats">
                         <div class="card-content">
-                            <h5>Проветривание</h5>
+                            <h5 class="hh">Проветривание</h5>
                             <div class="divider"></div>
                             <div class="section">
                                 <p><?php echo (($airing[count($airing) - 1]['data'] == '1') ? "Есть" : "Нету"); ?></p>
