@@ -25,7 +25,7 @@ def send_to_server():
     while True:
         time.sleep(minutes * 60)
         if len(variables['data1']) == 5:
-            for i in range(6):
+            for i in variables['data1']:
                 requests.get('http://greenhouse.cpc.tomsk.ru/api.php?key=30bJpP0R29epB7kofxF5WszPtP1fRJxWbVEf89bDXOFJpEJRMdvTN6ouqXOtg2bb&type=' + str(i) + '&data=' + variables['data1'][i])
 
 def search():   # Function for searching the arduino port
