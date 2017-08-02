@@ -23,15 +23,17 @@ variables = {'data1': [], 'data2': 0}  # Global variables, 'data1' for data from
 
 
 def send_to_server():
+    errs = 0
     while True:
         data = variables['data1']
-        print(data)
         for i in range(len(data)):
-            requests.get(
+            r = requests.get(
                 'http://greenhouse.cpc.tomsk.ru/api.php?key=30bJpP0R29epB7kofxF5WszPtP1fRJxWbVEf89bDXOFJpEJRMdvTN6ouqXOtg2bb&type=' + str(
                     i) + '&data=' + str(data[i]))
-            time.sleep(0.1)
-        print("Sended")
+            if r.text != "SENDED":
+                errs += 1
+                print("Error")
+        print("Sended with " + str(errs) + " errors")
         time.sleep(minutes * 60)
 
 
@@ -76,13 +78,13 @@ def make_global():  # Function for make variables global
 make_global()  # Make variables global
 
 ser = serial.Serial(search(), 9600)  # Open serial port
-time.sleep(5)  # Waiting for port
+time.sleep(3)  # Waiting for port
 
 receiving = Thread(target=receiving_data)  # Create the threading for receive data
 receiving.start()  # Start the threading for receive data
 
 print('[INFO] Started')
-time.sleep(5)
+time.sleep(0.5)
 
 sending = Thread(target=send_to_server)  # Create the threading for sending data to server
 sending.start()  # Start the threading for sending data to server
