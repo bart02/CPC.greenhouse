@@ -13,7 +13,7 @@ try {
 
 
 if ($_REQUEST['key'] == '30bJpP0R29epB7kofxF5WszPtP1fRJxWbVEf89bDXOFJpEJRMdvTN6ouqXOtg2bb' && isset($_REQUEST['type']) && isset($_REQUEST['data'])) {
-	$db->query("INSERT INTO `logs`(`logtype`, `date`, `data`) VALUES (" . $db->quote($_REQUEST['type']) . ", " . $db->quote(date('d.m H:i')) . ",". $db->quote($_REQUEST['data']) . ")");
+	$db->query("INSERT INTO `logs`(`logtype`, `date`, `data`) VALUES (" . $db->quote($_REQUEST['type']) . ", " . $db->quote(time()) . ",". $db->quote($_REQUEST['data']) . ")");
 	echo "SENDED";
 } else {
 	echo "ERROR";
