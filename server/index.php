@@ -69,6 +69,9 @@ foreach ($air_temp_out as $value) $air_temp_outm .= "[" . $value['date'] * 1000 
     
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
+    
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/main.js"></script>
 	
 	<style>
 		@media only screen and (min-width: 993px) {
@@ -79,7 +82,7 @@ foreach ($air_temp_out as $value) $air_temp_outm .= "[" . $value['date'] * 1000 
 	</style>
 </head>
 
-<body>
+<body id="background">
     <nav class="light-blue" role="navigation">
         <div class="nav-wrapper container">
             <a href="#" class="brand-logo">Теплица</a>
